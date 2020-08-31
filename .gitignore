@@ -11,6 +11,8 @@ out/
 *.o
 *.a
 *.unity
+*.csproj
+*.sln
 Library/
 Logs/
 Packages/
