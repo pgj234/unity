@@ -13,6 +13,10 @@ out/
 *.unity
 *.csproj
 *.sln
+*.FBX
+*.meta
+*.prefab
+*.mat
 Library/
 Logs/
 Packages/

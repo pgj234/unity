@@ -12,4 +12,12 @@ public class Monster {
         this.age = _age;
         this.power = _power;
     }
+
+    public void Attack() {
+        Debug.Log(mon_Name + "[" + age + "] " + "의 데미지 : " + power);
+    }
+
+    public void Run() {
+        Debug.Log(mon_Name + "[" + age + "] " + "가 도망! : ");
+    }
 }
