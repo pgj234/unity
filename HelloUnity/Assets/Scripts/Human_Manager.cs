@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Human_Manager : MonoBehaviour {
-    float a = 1.0f;
+    //float a = 1.0f;
     public Player player;
     public Human[] humans;
 
