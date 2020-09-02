@@ -10,11 +10,20 @@ public class GameManager : MonoBehaviour {
     // 3. 최고로 왤 버틴 시간을 저장
     // 4. 게임오버가 됐을 떄 'R' 버튼을 누르면 게임이 재시작
 
+    #region 오브젝트 OR 컴포넌트 public 변수 선언
+
     public GameObject gameoverPanel;
     public Text txtTime;
     public Text txtBestTime;
+
+    #endregion
+
+    #region 일반 private 변수 선언
+
     float surviveTime;
     bool isGameover;
+
+    #endregion
 
     void Start() {
         surviveTime = 0f;
@@ -32,6 +41,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    // 게임 오버
     public void EndGame() {
         isGameover = true;
 
