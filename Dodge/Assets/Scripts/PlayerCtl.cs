@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCtl : MonoBehaviour {
-    // Rigidbody playerRb;
-    Transform playerTr;
-    public float spd = 8f;
+    Rigidbody playerRb;
+    // Transform playerTr;
+    public float spd = 10f;
 
     void Start() {
-        playerTr = GetComponent<Transform>();
-        // playerRb = GetComponent<Rigidbody>();
+        // playerTr = GetComponent<Transform>();
+        playerRb = GetComponent<Rigidbody>();
     }
 
     void Update() {     // 프레임당 번씩 호출
-        float xInput = Input.GetAxis("Horizontal");
-        float zInput = Input.GetAxis("Vertical");
+        float hInput = Input.GetAxis("Horizontal");
+        float vInput = Input.GetAxis("Vertical");
 
-        float xSpd = xInput * spd * Time.deltaTime;
-        float zSpd = zInput * spd * Time.deltaTime;
+        float xSpd = hInput * spd * Time.deltaTime;
+        float zSpd = vInput * spd * Time.deltaTime;
 
-        playerTr.position = new Vector3(playerTr.position.x + xSpd, playerTr.position.y + zSpd, 0f);
+        Vector3 newMove = new Vector3(hInput, vInput, 0f);
+        newMove = newMove.normalized * spd * Time.deltaTime;
+        playerRb.position = transform.position + newMove;
+
+        // playerTr.position = new Vector3(playerTr.position.x + xSpd, playerTr.position.y + zSpd, 0f);
 
         // transform.localPosition;
 
@@ -46,6 +50,9 @@ public class PlayerCtl : MonoBehaviour {
     }
 
     public void Die() {
+        GameManager manager = FindObjectOfType<GameManager>();
+        manager.EndGame();
+
         gameObject.SetActive(false);
     }
 }
