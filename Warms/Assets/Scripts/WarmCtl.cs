@@ -15,9 +15,13 @@ public class WarmCtl : MonoBehaviour {
         warmRb = GetComponent<Rigidbody2D>();
     }
 
-    void OnCollisionEnter2D(Collision col) {
+    void OnCollisionEnter2D(Collision2D col) {
         if (col.collider.CompareTag("Floor") && Input.GetKeyDown(KeyCode.Space)) {
             jump = true;
+
+            if (col.collider.CompareTag("Floor")) {
+                // jump = false;
+            }
         }
     }
     
@@ -36,7 +40,6 @@ public class WarmCtl : MonoBehaviour {
         if (jump == true) {
             // 움츠러드는 애니메이션 넣으면 좋고
             Invoke("Jump", 0.5f);
-            jump = false;
         }
         else {
             float hInput = Input.GetAxis("Horizontal");
@@ -60,11 +63,5 @@ public class WarmCtl : MonoBehaviour {
         }
         
         warmRb.AddForce(Vector2.up * 4.5f * warmJumpPower * Time.deltaTime);
-
-        Invoke("test", 3f);
-    }
-
-    void test() {
-        jump = false;
     }
 }
