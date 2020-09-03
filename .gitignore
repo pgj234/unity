@@ -18,6 +18,14 @@ out/
 *.prefab
 *.mat
 *.TTF
+*.pdf
+Gizmos/
+Fonts/
+Cinemachine/
+Materials/
+Prefabs/
+Scenes/
+Photon/
 Library/
 Logs/
 Packages/
