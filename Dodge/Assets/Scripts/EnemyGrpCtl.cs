@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyCtl : MonoBehaviour {
+public class EnemyGrpCtl : MonoBehaviour {
 
     #region 오브젝트 OR 컴포넌트 private 변수 선언
 
