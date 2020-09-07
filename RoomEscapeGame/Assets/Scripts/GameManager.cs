@@ -37,14 +37,23 @@ public class GameManager : MonoBehaviour {
 
     bool hasKey = false;
 
+    bool isPopupOn;
+
     public Text txtNotice;
 
     void Awake() {
         Manager = this;
+
+        hasKey = false;
+        isPopupOn = false;
     }
 
     void Update() {
-        if (Input.GetMouseButtonUp(0) == true) {
+        if (isPopupOn == true) {
+            return;
+        } 
+
+        if (Input.GetMouseButtonDown(0) == true) {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Ray2D ray = new Ray2D(mousePos, Vector2.zero);
             RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction);
@@ -58,13 +67,21 @@ public class GameManager : MonoBehaviour {
                         break;
                     case "Drawer" :
                         Debug.Log("서랍 클릭");
+                        Drawer drawer = hit.transform.GetComponent<Drawer>();
+                        drawer.ClickDrawer();
                         break;
                     case "Lock" :
                         Debug.Log("자물쇠 클릭");
+                        CombiLock combiLock = hit.transform.GetComponent<CombiLock>();
+                        combiLock.ClickCombiLock();
                         break;
                 }
             }
         }
+    }
+
+    public void SetPopupOn(bool isOn) {
+        isPopupOn = isOn;
     }
 
     public void ShowNotice(string notice) {

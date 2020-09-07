@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Equipment : MonoBehaviour {
-    public enum equipmentStat : int {
-        
+    public struct equipmentStat {
+        string equipmentName;
     }
 }

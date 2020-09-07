@@ -7,21 +7,25 @@ public class WarmCtl : MonoBehaviour {
     public GameObject bazokaObj;
     Bazoka bazoka;
     Equipment equipmentCs;
+    Camera camera;
 
-    public float warmJumpPower = 50f;
+    public float warmJumpPower = 1f;
     public float warmSpd = 1.3f;
 
+    public bool my_Turn = false;
+
+    Transform _mousePosition;
+
+    bool action = false;
     bool warmDirLeft = false;
     bool isGround = false;
-    bool jump = false;
-    bool fire = false;
 
     GameObject equipment = null;
     public GameObject Equipment {
         set {
             if (equipment == null) {
                 equipment = bazokaObj;
-                equipmentCs = equipment.GetComponent<Bazoka>();
+                // equipmentCs = equipment.GetComponent<Bazoka>();
             }
             else {
                 // equipment = value;
@@ -31,7 +35,10 @@ public class WarmCtl : MonoBehaviour {
     }
 
     void Start() {
+        my_Turn = true; // 테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트테스트
         warmRb = GetComponent<Rigidbody2D>();
+
+        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     void OnCollisionEnter2D(Collision2D col) {
@@ -39,7 +46,7 @@ public class WarmCtl : MonoBehaviour {
         if (col.contacts[0].normal.y > 0.7f) {
             Debug.Log("바닥 충돌");
             isGround = true;
-            jump = false;
+            action = false;
         }
     }
 
@@ -50,46 +57,47 @@ public class WarmCtl : MonoBehaviour {
     // 좌우 이동, 점프, 장비 사용
     void Update() {
 
-        //방향 전환
-        if (Input.GetKey(KeyCode.LeftArrow) && jump == false) {
-            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-            warmDirLeft = true;
-            // 스프라이트 방향도 수정
-        }
-        else if (Input.GetKey(KeyCode.RightArrow) && jump == false) {
-            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            warmDirLeft = false;
-            // 스프라이트 방향도 수정
-        }
+        if (my_Turn == true) {
+            //방향 전환
+            if (Input.GetKey(KeyCode.LeftArrow) && action == false) {
+                WarmLeftDir();
+            }
+            else if (Input.GetKey(KeyCode.RightArrow) && action == false) {
+                WarmRightDir();
+            }
+            else {
+                if (camera.ScreenToWorldPoint(Input.mousePosition).x < this.transform.position.x && action == false) {       //마우스가 캐릭보다 왼쪽
+                    WarmLeftDir();
+                }
+                else if (camera.ScreenToWorldPoint(Input.mousePosition).x > this.transform.position.x && action == false) {      //마우스가 캐릭보다 오른쪽
+                    WarmRightDir();
+                }
+            }
 
-        // 점프 & 좌우 이동
-        if (Input.GetKeyDown(KeyCode.Z) && jump == false) {
-            // 움츠러드는 애니메이션 넣으면 좋고
-            jump = true;
-            Invoke("Jump", 0.3f);
-        }
-        else if (jump == false){
-            float hInput = Input.GetAxis("Horizontal");
+            // 점프 & 좌우 이동
+            if (Input.GetKeyDown(KeyCode.Z) && action == false) {
+                // 움츠러드는 애니메이션 넣으면 좋고
+                action = true;
+                Invoke("Jump", 0.3f);
+            }
+            else if (action == false){
+                float hInput = Input.GetAxis("Horizontal");
 
-            float xSpd = hInput * warmSpd;
+                float xSpd = hInput * warmSpd;
 
-            Vector3 newMove = new Vector3(hInput, 0f, 0f);
-            newMove = newMove.normalized * warmSpd * Time.deltaTime;
-            warmRb.position = transform.position + newMove;
-        }
+                Vector3 newMove = new Vector3(hInput, 0f, 0f);
+                newMove = newMove.normalized * warmSpd * Time.deltaTime;
+                warmRb.position = transform.position + newMove;
+            }
 
-        // 장비 사용
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            Debug.Log("장비 사용");
-
-            switch (warmDirLeft) {
-            case false :
-                // 우측 사용
-
-                break;
-            case true :
-                // 좌측 사용
-                break;
+            // 장비 사용
+            if (Input.GetKeyDown(KeyCode.Space) && action == false) {
+                Debug.Log("장비 사용");
+                action = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.Space)) {
+                Debug.Log("장비 사용 끝");
+                action = false;
             }
         }
     }
@@ -99,13 +107,32 @@ public class WarmCtl : MonoBehaviour {
 
         switch (warmDirLeft) {
             case false :
-                warmRb.AddForce(Vector2.right * warmJumpPower);
+                warmRb.AddForce(Vector2.right * warmJumpPower, ForceMode2D.Impulse);
+                //다른 사람에게도 보여주기
                 break;
             case true :
-                warmRb.AddForce(Vector2.left * warmJumpPower);
+                warmRb.AddForce(Vector2.left * warmJumpPower, ForceMode2D.Impulse);
+                //다른 사람에게도 보여주기
                 break;
         }
         
-        warmRb.AddForce(Vector2.up * 4.5f * warmJumpPower);
+        warmRb.AddForce(Vector2.up * 4.5f * warmJumpPower, ForceMode2D.Impulse);
+        //다른 사람에게도 보여주기
+    }
+
+    void WarmLeftDir() {
+        transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        warmDirLeft = true;
+        // 스프라이트 방향도 수정
+
+        //다른 사람에게도 보여주기
+    }
+
+    void WarmRightDir() {
+        transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        warmDirLeft = false;
+        // 스프라이트 방향도 수정
+
+        //다른 사람에게도 보여주기
     }
 }
