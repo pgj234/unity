@@ -18,6 +18,13 @@ public class WarmCtl : MonoBehaviour {
 
     bool action = false;
     bool warmDirLeft = false;
+
+    public bool WarmDirLeft {
+        get {
+            return warmDirLeft;
+        }
+    }
+
     bool isGround = false;
 
     GameObject equipment = null;

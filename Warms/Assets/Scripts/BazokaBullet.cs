@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class BazokaBullet : MonoBehaviour {
 
+    public GameObject bazokaExplosionObj;
+
     Rigidbody2D bazokaBulletRb;
 
-    Collider2D boomRadCol;
-
-    int bazokaDmg = 35;
-
+    [HideInInspector]
     public float BazokaBulletPower;
 
     void Start() {
         bazokaBulletRb = GetComponent<Rigidbody2D>();
-
+        
         bazokaBulletRb.AddForce(transform.up * 10f * BazokaBulletPower, ForceMode2D.Impulse);
     }
 
     void OnTriggerEnter2D(Collider2D col) {
+
         if (col.tag == "Floor" || col.tag == "Player") {
-            Boom(bazokaDmg);
+            GameObject obj = Instantiate(bazokaExplosionObj, transform.position, Quaternion.identity);
+            obj.transform.SetParent(null);
+            Destroy(this.gameObject);
         }
     }
 
-    void Boom(int dmg) {
-        Debug.Log("탄 삭제");
-        Destroy(this.gameObject);
-        // 폭발 구현하기
+    void Update() {
+        transform.up = bazokaBulletRb.velocity * Time.deltaTime;
     }
 }
