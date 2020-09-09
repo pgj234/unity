@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour {
 
     bool isPopupOn;
 
+    public GameObject itemSlotPrefab;
+
+    public Transform inventoryTr;
+
     public GameObject escapePopup;
 
     public Text txtNotice;
@@ -70,6 +74,7 @@ public class GameManager : MonoBehaviour {
                         if (hasKey == true) {
                             escapePopup.SetActive(true);
                             isPopupOn = true;
+                            ShowNotice("");
                         }
 
                         break;
@@ -98,6 +103,15 @@ public class GameManager : MonoBehaviour {
                 ShowNotice("열쇠를 얻었습니다.");
                 break;
         }
+
+        Image itemImg = item.GetComponent<Image>();
+        GameObject slotObj = Instantiate(itemSlotPrefab, inventoryTr);
+
+        RectTransform slotTr = slotObj.GetComponent<RectTransform>();
+        slotTr.anchoredPosition = new Vector2(0f, 0f);
+
+        UIItemSlot slot = slotObj.GetComponent<UIItemSlot>();
+        slot.UpdateSlot(itemImg.sprite);
     }
 
     public void SetPopupOn(bool isOn) {

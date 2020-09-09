@@ -11,6 +11,8 @@ public class BazokaBullet : MonoBehaviour {
     [HideInInspector]
     public float BazokaBulletPower;
 
+    bool onExplosion = false;
+
     void Start() {
         bazokaBulletRb = GetComponent<Rigidbody2D>();
         
@@ -18,15 +20,20 @@ public class BazokaBullet : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D col) {
-
-        if (col.tag == "Floor" || col.tag == "Player") {
-            GameObject obj = Instantiate(bazokaExplosionObj, transform.position, Quaternion.identity);
-            obj.transform.SetParent(null);
-            Destroy(this.gameObject);
+        if ((col.tag == "Floor" || col.tag == "Player") && onExplosion == false) {
+            onExplosion = true;
+            GenerateExplosion();
         }
     }
 
+    void GenerateExplosion() {
+        GameObject obj = Instantiate(bazokaExplosionObj, transform.position, Quaternion.identity);
+        obj.transform.SetParent(null);
+        Debug.Log("두번 나옴????");
+        Destroy(this.gameObject);
+    }
+
     void Update() {
-        transform.up = bazokaBulletRb.velocity * Time.deltaTime;
+        transform.up = bazokaBulletRb.velocity * Time.deltaTime;        // 기울어짐
     }
 }

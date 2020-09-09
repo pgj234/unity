@@ -102,8 +102,10 @@ public class RSPGameManager : MonoBehaviour {
         }
     }
     
+    IEnumerator IE = null;
     public void GroupClickMyHandButton(int myHandInt) {
-        StartCoroutine("IEShowGroupGameResult", myHandInt);
+        IE = IEShowGroupGameResult(myHandInt);
+        StartCoroutine(IE);
     }
 
     public void ResetButton() {
