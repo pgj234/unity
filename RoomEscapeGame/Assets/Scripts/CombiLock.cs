@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombiLock : MonoBehaviour {
+public class CombiLock : MonoBehaviour, IClickAble {
 
     // 자물쇠 : 잠김 상태면 자물쇠 팝업 띄워주고 열리면 사라짐.
 
@@ -32,7 +32,7 @@ public class CombiLock : MonoBehaviour {
         curButtons = new LockButton[4];
     }
 
-    public void ClickCombiLock() {
+    public void OnClick() {
         if (isLock == true) {
             SetPopupOn(true);
         }

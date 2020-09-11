@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WarmCtl : MonoBehaviour {
     Rigidbody2D warmRb;
@@ -130,6 +131,7 @@ public class WarmCtl : MonoBehaviour {
     void WarmLeftDir() {
         transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         warmDirLeft = true;
+        bazokaObj.GetComponent<SpriteRenderer>().flipY = true;             // 테스트테스트테스트테스트테스트테스트테스트테스트
         // 스프라이트 방향도 수정
 
         //다른 사람에게도 보여주기
@@ -138,6 +140,7 @@ public class WarmCtl : MonoBehaviour {
     void WarmRightDir() {
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         warmDirLeft = false;
+        bazokaObj.GetComponent<SpriteRenderer>().flipY = false;             // 테스트테스트테스트테스트테스트테스트테스트테스트
         // 스프라이트 방향도 수정
 
         //다른 사람에게도 보여주기

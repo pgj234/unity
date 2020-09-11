@@ -16,7 +16,7 @@ public class BazokaBullet : MonoBehaviour {
     void Start() {
         bazokaBulletRb = GetComponent<Rigidbody2D>();
         
-        bazokaBulletRb.AddForce(transform.up * 10f * BazokaBulletPower, ForceMode2D.Impulse);
+        bazokaBulletRb.AddForce(transform.right * 10f * BazokaBulletPower, ForceMode2D.Impulse);
     }
 
     void OnTriggerEnter2D(Collider2D col) {
@@ -29,7 +29,6 @@ public class BazokaBullet : MonoBehaviour {
     void GenerateExplosion() {
         GameObject obj = Instantiate(bazokaExplosionObj, transform.position, Quaternion.identity);
         obj.transform.SetParent(null);
-        Debug.Log("두번 나옴????");
         Destroy(this.gameObject);
     }
 

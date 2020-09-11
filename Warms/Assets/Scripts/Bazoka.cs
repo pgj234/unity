@@ -29,7 +29,7 @@ public class Bazoka : MonoBehaviour {
             if (Input.GetKeyUp(KeyCode.Space) || power > maxPower) {                        // 바주카 발사
                 GameObject obj = Instantiate(bazokaBullet, bazokaFireObj.transform.position, bazokaFireObj.transform.rotation);
                 obj.GetComponent<BazokaBullet>().BazokaBulletPower = power;
-                obj.transform.parent = null;
+                obj.transform.SetParent(null);
                 obj.transform.localScale = new Vector3(0.2f, 0.1f, 1f);
                 shot = true;
                 power = 0.1f;
@@ -46,7 +46,7 @@ public class Bazoka : MonoBehaviour {
     void LookAtMouse() {
         dir =  Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     void TEST() {

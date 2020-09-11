@@ -35,22 +35,17 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    bool hasKey = false;
+    public GameObject itemSlotPrefab;
+    public Transform inventoryTr;
+    public GameObject escapePopup;
+    public Text txtNotice;
+    public List<Door> doors;
 
     bool isPopupOn;
-
-    public GameObject itemSlotPrefab;
-
-    public Transform inventoryTr;
-
-    public GameObject escapePopup;
-
-    public Text txtNotice;
 
     void Awake() {
         Manager = this;
 
-        hasKey = false;
         isPopupOn = false;
     }
 
@@ -65,29 +60,9 @@ public class GameManager : MonoBehaviour {
             RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction);
 
             foreach(var hit in hits) {
-                switch(hit.transform.tag) {
-                    case "Door" :
-                        Debug.Log("문 클릭");
-                        Door door = hit.transform.GetComponent<Door>();
-                        door.ClickDoor(hasKey);
-
-                        if (hasKey == true) {
-                            escapePopup.SetActive(true);
-                            isPopupOn = true;
-                            ShowNotice("");
-                        }
-
-                        break;
-                    case "Drawer" :
-                        Debug.Log("서랍 클릭");
-                        Drawer drawer = hit.transform.GetComponent<Drawer>();
-                        drawer.ClickDrawer();
-                        break;
-                    case "Lock" :
-                        Debug.Log("자물쇠 클릭");
-                        CombiLock combiLock = hit.transform.GetComponent<CombiLock>();
-                        combiLock.ClickCombiLock();
-                        break;
+                IClickAble clickAble = hit.transform.GetComponent<IClickAble>();
+                if (clickAble != null) {
+                    clickAble.OnClick();
                 }
             }
         }
@@ -96,12 +71,10 @@ public class GameManager : MonoBehaviour {
     public void PutInItem(GameObject item) {
         string itemId = item.name;
 
-        switch(itemId) {
-            case "Item-Key" :
-                hasKey = true;
+        for (int i=0; i<doors.Count; i++) {
+            if (doors[i].SetHasKey(itemId)) {
                 item.SetActive(false);
-                ShowNotice("열쇠를 얻었습니다.");
-                break;
+            }
         }
 
         Image itemImg = item.GetComponent<Image>();
@@ -120,5 +93,10 @@ public class GameManager : MonoBehaviour {
 
     public void ShowNotice(string notice) {
         txtNotice.text = notice;
+    }
+
+    public void ShowEscape() {
+        escapePopup.SetActive(true);
+        isPopupOn = true;
     }
 }
