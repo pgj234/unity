@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AirPlane : MonoBehaviour, Mover {
+public class AirPlane : MonoBehaviour, IMover {
     bool moveIng = true;
     float time = 0f;
 

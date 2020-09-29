@@ -9,11 +9,11 @@ public class MoveGame_GameManager : MonoBehaviour {
     [SerializeField] int carNum;
     [SerializeField] int airPlaneNum;
 
-    Mover[] movers;
+    IMover[] movers;
 
     void Start() {
 
-        movers = new Mover[4];
+        movers = new IMover[4];
         movers[0] = CreateAirPlane();
         movers[1] = CreateCar();
         movers[2] = CreateCar();
@@ -38,5 +38,11 @@ public class MoveGame_GameManager : MonoBehaviour {
 
     int RandomIntFuc(int minNum, int maxNum) {
         return Random.Range(minNum, maxNum +1);
+    }
+
+    public void AllStop() {
+        for (int i=0; i<movers.Length; i++) {
+            movers[i].Stop();
+        }
     }
 }
